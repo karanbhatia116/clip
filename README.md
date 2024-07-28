@@ -17,3 +17,11 @@ This application supports multiple features such as:
 - can list/view all expenses in a group ✅
 - can check total owing amount in the group ✅
 - can check transactions in the group where user is owed by or owing some amount to their friend ✅
+
+
+# Todo Items
+- [ ] Fix simplify splits logic
+- [ ] Refactor error handling by throwing custom exceptions and catching at interceptor
+- [ ] Refactor expense addition
+- [ ] Fix error handling for expenses
+- [ ] Add support for automatic split calculation from backend without relying on client to provide splits
