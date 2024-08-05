@@ -20,7 +20,7 @@ This application supports multiple features such as:
 
 
 # Todo Items
-- [ ] Fix simplify splits logic
+- [x] Fix simplify splits logic
 - [ ] Refactor error handling by throwing custom exceptions and catching at interceptor
 - [ ] Refactor expense addition
 - [ ] Fix error handling for expenses
