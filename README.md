@@ -11,7 +11,7 @@ This application supports multiple features such as:
 - add another user to group ✅
 - update group ✅
 - delete group ✅
-- simplify splits in the group ⚠️
+- simplify splits in the group ✅
 - can check the total lent amount and borrowed amount among users and groups ✅
 - can list/view all the groups a user is a part of ✅
 - can list/view all expenses in a group ✅
