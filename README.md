@@ -26,3 +26,5 @@ This application supports multiple features such as:
 - [ ] Add support for automatic split calculation from backend without relying on client to provide splits
 - [ ] Rollback changes in other entities (splits and transactions) when adding expense fails
 - [ ] Remove auto incrementing long ids from databases (Major refactor). Start using UUIDs
+- [ ] Add deployment configs
+- [ ] Add image upload module
