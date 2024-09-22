@@ -20,8 +20,9 @@ This application supports multiple features such as:
 
 
 # Todo Items
-- [x] Fix simplify splits logic
-- [ ] Refactor error handling by throwing custom exceptions and catching at interceptor
+- [x] Refactor error handling by throwing custom exceptions and catching at interceptor
 - [ ] Refactor expense addition
 - [ ] Fix error handling for expenses
 - [ ] Add support for automatic split calculation from backend without relying on client to provide splits
+- [ ] Rollback changes in other entities (splits and transactions) when adding expense fails
+- [ ] Remove auto incrementing long ids from databases (Major refactor). Start using UUIDs

@@ -1,4 +1,4 @@
-package app.clip.commons;
+package app.clip.commons.money;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

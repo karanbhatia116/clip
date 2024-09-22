@@ -1,11 +1,13 @@
 package app.clip.users.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.users.models.User;
 import app.clip.users.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,25 +19,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User create(User user) {
         return userRepository.saveAndFlush(user);
     }
 
     @Override
-    public User deleteById(Long id) {
+    @Transactional
+    public User deleteById(Long id) throws NotFoundException {
         User user = getById(id);
         userRepository.deleteById(id);
         return user;
     }
 
     @Override
+    @Transactional
     public User update(User user) {
         return userRepository.saveAndFlush(user);
     }
 
     @Override
-    public User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User with id " + id + " not found"));
+    public User getById(Long id) throws NotFoundException {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.USER.name(), id.toString()));
     }
 
     @Override

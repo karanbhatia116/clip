@@ -1,7 +1,7 @@
 package app.clip.converters;
 
-import app.clip.commons.Currency;
-import app.clip.commons.Money;
+import app.clip.commons.money.Currency;
+import app.clip.commons.money.Money;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

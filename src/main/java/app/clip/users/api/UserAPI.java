@@ -1,5 +1,6 @@
 package app.clip.users.api;
 
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.users.models.User;
 import app.clip.users.services.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +21,12 @@ public class UserAPI {
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable("id") Long id) {
+    public User getById(@PathVariable("id") Long id) throws NotFoundException {
         return userService.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    public User deleteById(@PathVariable("id") Long id) {
+    public User deleteById(@PathVariable("id") Long id) throws NotFoundException {
         return userService.deleteById(id);
     }
 

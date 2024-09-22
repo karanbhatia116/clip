@@ -1,7 +1,7 @@
 package app.clip.expenses.validators;
 
-import app.clip.commons.Money;
-import app.clip.commons.Violation;
+import app.clip.commons.money.Money;
+import app.clip.commons.exceptions.Violation;
 import app.clip.expenses.dtos.ExpenseDTO;
 import app.clip.splits.models.Split;
 

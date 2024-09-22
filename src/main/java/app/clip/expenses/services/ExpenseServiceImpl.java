@@ -1,5 +1,7 @@
 package app.clip.expenses.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.expenses.models.Expense;
 import app.clip.expenses.repositories.ExpenseRepository;
 import app.clip.splits.models.Split;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -39,15 +40,15 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     @Transactional
-    public Expense deleteById(Long id) {
+    public Expense deleteById(Long id) throws NotFoundException {
         Expense expense = getById(id);
         expenseRepository.deleteById(id);
         return expense;
     }
 
     @Override
-    public Expense getById(Long id) {
-        return expenseRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No expense found with id " + id));
+    public Expense getById(Long id) throws NotFoundException {
+        return expenseRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.EXPENSE.name(), id.toString()));
     }
 
     @Override

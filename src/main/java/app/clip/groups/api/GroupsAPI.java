@@ -1,5 +1,6 @@
 package app.clip.groups.api;
 
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.group_users.models.GroupUser;
 import app.clip.group_users.services.GroupUserService;
 import app.clip.groups.models.Group;
@@ -25,7 +26,7 @@ public class GroupsAPI {
     }
 
     @PostMapping("/")
-    public Group create(@RequestBody Group group) {
+    public Group create(@RequestBody Group group) throws NotFoundException {
         Long creatorId = group.getCreatorId();
         User user = userService.getById(creatorId);
         Group newGroup = groupService.create(group);
@@ -34,7 +35,7 @@ public class GroupsAPI {
     }
 
     @DeleteMapping("/{id}")
-    public Group deleteById(@PathVariable("id") Long id) {
+    public Group deleteById(@PathVariable("id") Long id) throws NotFoundException {
         // when group is deleted, remove all the members of the group first
         // then delete the group
         Collection<GroupUser> groupUsers = groupUserService.findByGroupId(id);
@@ -43,7 +44,7 @@ public class GroupsAPI {
     }
 
     @GetMapping("/{id}")
-    public Group getById(@PathVariable("id") Long id) {
+    public Group getById(@PathVariable("id") Long id) throws NotFoundException {
         return groupService.getById(id);
     }
 
@@ -53,7 +54,7 @@ public class GroupsAPI {
     }
 
     @PatchMapping("/{id}/simplify-debt")
-    public Group simplifyDebts(@PathVariable("id") Long id) {
+    public Group simplifyDebts(@PathVariable("id") Long id) throws NotFoundException {
         return groupService.simplifyDebts(id);
     }
 }

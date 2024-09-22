@@ -1,12 +1,13 @@
 package app.clip.transactions.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.transactions.models.Transaction;
 import app.clip.transactions.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -24,8 +25,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction getById(Long id) {
-        return transactionRepository.findById(id).filter(Transaction::isActive).orElseThrow(() -> new NoSuchElementException("No transaction found with id " + id));
+    public Transaction getById(Long id) throws NotFoundException {
+        return transactionRepository.findById(id).filter(Transaction::isActive).orElseThrow(() -> new NotFoundException(AssetClass.TRANSACTION.name(), id.toString()));
     }
 
     /**
@@ -33,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     @Transactional
-    public Transaction deleteById(Long id) {
+    public Transaction deleteById(Long id) throws NotFoundException {
         Transaction transaction = getById(id);
         transactionRepository.deleteById(id);
         return transaction;
@@ -71,9 +72,9 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     @Transactional
-    public Transaction softDeleteById(Long id) {
+    public Transaction softDeleteById(Long id) throws NotFoundException {
         transactionRepository.markAsInactive(id);
-        return transactionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No transaction found with id " + id));
+        return transactionRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.TRANSACTION.name(), id.toString()));
     }
 
 }

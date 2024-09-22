@@ -1,4 +1,4 @@
-package app.clip.commons;
+package app.clip.commons.exceptions;
 
 public record Violation (
     String message

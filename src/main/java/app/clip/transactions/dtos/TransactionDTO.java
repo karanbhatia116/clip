@@ -1,6 +1,6 @@
 package app.clip.transactions.dtos;
 
-import app.clip.commons.Money;
+import app.clip.commons.money.Money;
 
 public record TransactionDTO(
         Long id,

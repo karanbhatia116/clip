@@ -1,7 +1,7 @@
 package app.clip.transactions.utils;
 
 
-import app.clip.commons.Money;
+import app.clip.commons.money.Money;
 import app.clip.transactions.models.Transaction;
 
 import java.math.BigDecimal;

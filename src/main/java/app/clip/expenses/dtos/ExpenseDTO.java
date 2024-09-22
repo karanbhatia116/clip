@@ -1,6 +1,6 @@
 package app.clip.expenses.dtos;
 
-import app.clip.commons.Money;
+import app.clip.commons.money.Money;
 import app.clip.splits.models.Split;
 
 import java.util.List;

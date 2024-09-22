@@ -1,5 +1,7 @@
 package app.clip.groups.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.transactions.models.Transaction;
 import app.clip.transactions.services.TransactionService;
 import app.clip.groups.models.Group;
@@ -31,12 +33,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group getById(Long id) {
-        return groupRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No group with id " + id + " found"));
+    public Group getById(Long id) throws NotFoundException {
+        return groupRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.GROUP.name(), id.toString()));
     }
 
     @Override
-    public Group deleteById(Long id) {
+    public Group deleteById(Long id) throws NotFoundException {
         Group group = getById(id);
         groupRepository.deleteById(id);
         return group;
@@ -48,7 +50,7 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public Group simplifyDebts(final Long id) {
+    public Group simplifyDebts(final Long id) throws NotFoundException {
         groupRepository.simplifyDebt(id);
         Collection<Transaction> transactionsWithinGroup = transactionService.findTransactionsWithinGroup(id);
         Collection<Transaction> simplifiedTransactions = TransactionUtils.simplifyTransactions(transactionsWithinGroup);

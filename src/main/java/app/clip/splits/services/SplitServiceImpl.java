@@ -1,5 +1,7 @@
 package app.clip.splits.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.splits.models.Split;
 import app.clip.splits.repositories.SplitRepository;
 import jakarta.transaction.Transactional;
@@ -7,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class SplitServiceImpl implements SplitService {
@@ -26,7 +27,7 @@ public class SplitServiceImpl implements SplitService {
 
     @Override
     @Transactional
-    public Split deleteById(Long id) {
+    public Split deleteById(Long id) throws NotFoundException {
         Split split = getById(id);
         splitRepository.deleteById(split.getId());
         return split;
@@ -39,8 +40,8 @@ public class SplitServiceImpl implements SplitService {
     }
 
     @Override
-    public Split getById(Long id) {
-        return splitRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No split with id " + id + " found"));
+    public Split getById(Long id) throws NotFoundException {
+        return splitRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.SPLIT.name(), id.toString()));
     }
 
     @Override

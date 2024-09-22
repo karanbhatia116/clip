@@ -1,4 +1,4 @@
-package app.clip.commons;
+package app.clip.commons.money;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

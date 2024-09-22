@@ -1,8 +1,10 @@
 package app.clip.expenses.api;
 
-import app.clip.commons.Currency;
-import app.clip.commons.Money;
-import app.clip.commons.Violation;
+import app.clip.commons.exceptions.NotFoundException;
+import app.clip.commons.exceptions.ValidationException;
+import app.clip.commons.money.Currency;
+import app.clip.commons.money.Money;
+import app.clip.commons.exceptions.Violation;
 import app.clip.expenses.adapters.ExpenseDTOAdapter;
 import app.clip.expenses.dtos.ExpenseDTO;
 import app.clip.expenses.models.Expense;
@@ -45,14 +47,12 @@ public class ExpenseAPI {
 
 
     @PostMapping("/")
-    public ExpenseDTO addExpense(@RequestBody ExpenseDTO expenseDTO) {
+    public ExpenseDTO addExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException, NotFoundException {
 
         List<Violation> violations = ExpenseDTOValidator.validateExpenseDTO(expenseDTO);
         if (!violations.isEmpty()) {
             LOGGER.error("Validation failed for expense request: {}", violations);
-            // throw new ValidationException here. catch it at the interceptor and transform the response
-            // appropriately
-            throw new IllegalArgumentException("Invalid expense provided. Cannot add expense!");
+            throw new ValidationException(violations);
         }
 
         final Expense expense = ExpenseDTOAdapter.toExpense(expenseDTO);
@@ -123,7 +123,7 @@ public class ExpenseAPI {
     }
 
     @GetMapping("/{id}")
-    public ExpenseDTO viewExpense(@PathVariable("id") Long id) {
+    public ExpenseDTO viewExpense(@PathVariable("id") Long id) throws NotFoundException {
         Expense expense = expenseService.getById(id);
         Collection<Split> splits = splitService.fetchAllSplitsForExpense(id);
         return ExpenseDTOAdapter.toExpenseDTO(expense, splits);

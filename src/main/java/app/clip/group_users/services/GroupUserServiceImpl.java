@@ -1,17 +1,17 @@
 package app.clip.group_users.services;
 
+import app.clip.commons.constants.AssetClass;
+import app.clip.commons.exceptions.ApplicationException;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.group_users.models.GroupUser;
 import app.clip.group_users.repositories.GroupUserRepository;
 import app.clip.groups.models.Group;
 import app.clip.groups.services.GroupService;
 import app.clip.users.models.User;
 import app.clip.users.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
 @Service
 public class GroupUserServiceImpl implements GroupUserService {
@@ -19,8 +19,6 @@ public class GroupUserServiceImpl implements GroupUserService {
     private final UserService userService;
     private final GroupService groupService;
     private final GroupUserRepository groupUserRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GroupUserServiceImpl.class);
 
     public GroupUserServiceImpl(UserService userService, GroupService groupService, GroupUserRepository groupUserRepository) {
         this.userService = userService;
@@ -42,7 +40,7 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public void addUserToGroup(Long userId, Long groupId) {
+    public void addUserToGroup(Long userId, Long groupId) throws NotFoundException {
         User user = userService.getById(userId);
         Group group = groupService.getById(groupId);
         GroupUser groupUser = new GroupUser();
@@ -52,13 +50,13 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public void removeUserFromGroup(Long userId, Long groupId) {
+    public void removeUserFromGroup(Long userId, Long groupId) throws ApplicationException {
         User user = userService.getById(userId);
         Group group = groupService.getById(groupId);
         GroupUser groupUser = groupUserRepository.findByUserIdAndGroupId(
                         user.getId(), group.getId())
                 .orElseThrow(
-                        () -> new NoSuchElementException("User " + user.getId() + " doesn't belong to group " + group.getId())
+                        () -> new ApplicationException("User " + user.getId() + " doesn't belong to group " + group.getId())
                 );
         groupUserRepository.deleteById(groupUser.getId());
     }
@@ -69,7 +67,7 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public GroupUser deleteById(Long id) {
+    public GroupUser deleteById(Long id) throws NotFoundException {
         GroupUser groupUser = getById(id);
         groupUserRepository.deleteById(groupUser.getId());
         return groupUser;
@@ -88,8 +86,8 @@ public class GroupUserServiceImpl implements GroupUserService {
     }
 
     @Override
-    public GroupUser getById(Long id) {
-        return groupUserRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Group User with id " + id + " not found"));
+    public GroupUser getById(Long id) throws NotFoundException {
+        return groupUserRepository.findById(id).orElseThrow(() -> new NotFoundException(AssetClass.GROUP_USER.name(), id.toString()));
     }
 
     @Override

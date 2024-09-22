@@ -1,5 +1,7 @@
 package app.clip.group_users.api;
 
+import app.clip.commons.exceptions.ApplicationException;
+import app.clip.commons.exceptions.NotFoundException;
 import app.clip.group_users.services.GroupUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +18,12 @@ public class GroupUserAPI {
     }
 
     @PostMapping("/add")
-    public void addUserToGroup(@RequestHeader("x-user-id") Long userId, @RequestHeader("x-group-id") Long groupId) {
+    public void addUserToGroup(@RequestHeader("x-user-id") Long userId, @RequestHeader("x-group-id") Long groupId) throws NotFoundException {
         groupUserService.addUserToGroup(userId, groupId);
     }
 
     @DeleteMapping("/remove")
-    public void removeUserFromGroup(@RequestHeader("x-user-id") Long userId, @RequestHeader("x-group-id") Long groupId) {
+    public void removeUserFromGroup(@RequestHeader("x-user-id") Long userId, @RequestHeader("x-group-id") Long groupId) throws ApplicationException {
         groupUserService.removeUserFromGroup(userId, groupId);
     }
 

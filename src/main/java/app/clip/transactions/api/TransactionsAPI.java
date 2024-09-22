@@ -1,7 +1,7 @@
 package app.clip.transactions.api;
 
-import app.clip.commons.Currency;
-import app.clip.commons.Money;
+import app.clip.commons.money.Currency;
+import app.clip.commons.money.Money;
 import app.clip.transactions.models.Transaction;
 import app.clip.transactions.services.TransactionService;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +11,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/transactions")
@@ -28,8 +26,6 @@ public class TransactionsAPI {
     public List<Money> getTotalFloatingAmountForUser(@PathVariable("userId") Long userId) {
         Collection<Transaction> lendings = transactionService.findUserLendings(userId);
         Collection<Transaction> borrowings = transactionService.findUserBorrowings(userId);
-        Logger.getAnonymousLogger().log(Level.INFO, "Lendings: " + lendings);
-        Logger.getAnonymousLogger().log(Level.INFO, "Borrowings: " + borrowings);
         Map<Currency, Money> splitAmountsByCurrency = new HashMap<>();
         lendings.forEach(lending -> {
             Currency currency = lending.getAmt().getCurrency();

@@ -1,6 +1,6 @@
 package app.clip.transactions.models;
 
-import app.clip.commons.Money;
+import app.clip.commons.money.Money;
 import app.clip.converters.MoneyAttributeConverter;
 import jakarta.persistence.*;
 
