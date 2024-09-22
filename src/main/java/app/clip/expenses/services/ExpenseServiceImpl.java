@@ -4,6 +4,7 @@ import app.clip.expenses.models.Expense;
 import app.clip.expenses.repositories.ExpenseRepository;
 import app.clip.splits.models.Split;
 import app.clip.splits.services.SplitService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -22,11 +23,13 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    @Transactional
     public Expense add(Expense expense) {
         return expenseRepository.save(expense);
     }
 
     @Override
+    @Transactional
     public Expense update(Expense expense) {
         if (expense != null && expense.getId() != null) {
             expense.setUpdatedAt(System.currentTimeMillis());
@@ -35,6 +38,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
+    @Transactional
     public Expense deleteById(Long id) {
         Expense expense = getById(id);
         expenseRepository.deleteById(id);

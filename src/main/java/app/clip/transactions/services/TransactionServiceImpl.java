@@ -2,10 +2,10 @@ package app.clip.transactions.services;
 
 import app.clip.transactions.models.Transaction;
 import app.clip.transactions.repositories.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -18,6 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public Transaction save(Transaction transaction) {
         return transactionRepository.save(transaction);
     }
@@ -31,6 +32,7 @@ public class TransactionServiceImpl implements TransactionService {
      * Hard deletes the transaction
      */
     @Override
+    @Transactional
     public Transaction deleteById(Long id) {
         Transaction transaction = getById(id);
         transactionRepository.deleteById(id);
@@ -40,6 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
+    @Transactional
     public Collection<Transaction> saveMultiple(Collection<Transaction> transactions) {
         transactions.forEach(transaction -> {
             transaction.setPaidOn(System.currentTimeMillis());
@@ -67,6 +70,7 @@ public class TransactionServiceImpl implements TransactionService {
      * Marks transaction as inactive.
      */
     @Override
+    @Transactional
     public Transaction softDeleteById(Long id) {
         transactionRepository.markAsInactive(id);
         return transactionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No transaction found with id " + id));

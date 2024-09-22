@@ -2,6 +2,7 @@ package app.clip.splits.services;
 
 import app.clip.splits.models.Split;
 import app.clip.splits.repositories.SplitRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,11 +19,13 @@ public class SplitServiceImpl implements SplitService {
     }
 
     @Override
+    @Transactional
     public Split create(Split split) {
         return splitRepository.saveAndFlush(split);
     }
 
     @Override
+    @Transactional
     public Split deleteById(Long id) {
         Split split = getById(id);
         splitRepository.deleteById(split.getId());
@@ -30,6 +33,7 @@ public class SplitServiceImpl implements SplitService {
     }
 
     @Override
+    @Transactional
     public Split update(Split split) {
         return splitRepository.saveAndFlush(split);
     }
@@ -40,6 +44,7 @@ public class SplitServiceImpl implements SplitService {
     }
 
     @Override
+    @Transactional
     public Collection<Split> saveMultiple(Collection<Split> splits) {
         return splitRepository.saveAll(splits);
     }
