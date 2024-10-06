@@ -30,8 +30,8 @@ public class ExpenseDTOValidator {
         return violations;
     }
 
-    private static List<Violation> validateTotalAmt(Money totalAmt) {
-        List<Violation> violations = new ArrayList<>();
+    private static List<Violation> validateTotalAmt(final Money totalAmt) {
+        final List<Violation> violations = new ArrayList<>();
         if (totalAmt == null || totalAmt.getAmount() == null) {
             violations.add(new Violation("Total amount cannot be null for expense!"));
             return violations;
@@ -43,8 +43,8 @@ public class ExpenseDTOValidator {
         return violations;
     }
 
-    private static List<Violation> validateSplits(List<Split> splits, Money totalAmt) {
-        List<Violation> violations = new ArrayList<>();
+    private static List<Violation> validateSplits(final List<Split> splits, final Money totalAmt) {
+        final List<Violation> violations = new ArrayList<>();
         if (splits == null || splits.isEmpty()) {
             violations.add(new Violation("Splits cannot be empty. Required parameter!"));
             return violations;

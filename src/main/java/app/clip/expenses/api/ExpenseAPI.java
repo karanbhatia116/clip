@@ -48,8 +48,7 @@ public class ExpenseAPI {
 
     @PostMapping("/")
     public ExpenseDTO addExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException, NotFoundException {
-
-        List<Violation> violations = ExpenseDTOValidator.validateExpenseDTO(expenseDTO);
+        final List<Violation> violations = ExpenseDTOValidator.validateExpenseDTO(expenseDTO);
         if (!violations.isEmpty()) {
             LOGGER.error("Validation failed for expense request: {}", violations);
             throw new ValidationException(violations);
@@ -75,7 +74,7 @@ public class ExpenseAPI {
         Collection<Split> savedSplits = splitService.saveMultiple(splits);
 
         // register transactions
-        List<Transaction> transactions = new ArrayList<>();
+        final List<Transaction> transactions = new ArrayList<>();
         savedSplits.forEach(split -> {
             if (!Objects.equals(split.getUserId(), payer.getId())) {
                 Transaction transaction = new Transaction();
